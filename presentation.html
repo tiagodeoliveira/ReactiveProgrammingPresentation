@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <link rel="stylesheet" media="all" href="theme/css/default.css">
+  <link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="theme/css/phone.css">
+  <base target="_blank">
+  <script src="http://knockoutjs.com/downloads/knockout-3.2.0.js"></script>  
+
+  <script data-main="js/slides" src="js/require-1.0.8.min.js"></script>
+</head>
+<body style="opacity: 0">
+
+<slides class="layout-widescreen">
+
+  <slide class="logoslide nobackground">
+    <article class="flexbox vcenter">
+      <span><img src="images/supertalks.png"></span>
+    </article>
+  </slide>
+
+  <slide class="title-slide segue nobackground">
+    <aside class="gdbar"><img src="images/zenvia_simbolo_direita.png"></aside>
+
+    <hgroup class="auto-fadein">
+      <h1 data-config-title><!-- populated from slide_config.json --></h1>
+      <h2 data-config-subtitle><!-- populated from slide_config.json --></h2>
+      <p data-config-presenter><!-- populated from slide_config.json --></p>
+    </hgroup>
+  </slide>
+
+  <!-- Slide 01 - Explain about reactive parading -->
+  <slide>
+    <aside class="note">
+      <section>
+        <ul>
+          <li>Hard to preview the changes, what when why</li>
+          <li>Don't go low level, keep focused on our business</li>
+          <li>Robotics and autonomous systems, interacting like a human</li>
+        </ul>
+      </section>
+    </aside>    
+    <hgroup>
+      <h2>What that means?</h2>
+    </hgroup>
+    <article>
+		<ul class="build fade">
+          	<li>React to the change when they happen, over-preparation is bad</li>
+			<li>Programming paradigm Dataflow and Change Propagation oriented</li>	
+			<li>Background:
+				<ul>
+					<li>Action selection on autonomous agents</li>
+					<li>Behavior-based Robotics</li>
+					<li>Reactive planning - AI</li>
+					<li>Act <-> Sense</li>
+				</ul>
+			</li>
+			<li>High level (modern) division:
+				<ul>
+					<li>Programming</li>
+					<li style="font-weight: bold;">Architecture</li>
+				</ul>
+			</li>
+		<ul>
+		<br />
+		<h3 style="font-style: italic">Impossible to predict the changes, but do something when they happen!</h3>    		
+    </article>
+  </slide>
+
+  <slide>
+    <aside class="note">
+      <section>
+        <ul>
+          <li>Observer pattern is basically the modern implementation of OORP on many frameworks and APIs: ReactiveX (RxJava, RxJS, RxPy, RxGroovy...)</li>
+          <li>Over time values like 'y = x + z'</li>
+        </ul>
+      </section>
+    </aside>  
+    <hgroup>
+      <h2>Reactive Programming</h2>
+    </hgroup>
+    <article >
+		<ul class="build">
+			<li>Observer pattern
+				<ul>
+					<li>When a given object keeps a list of who is using it and notifies on every and each change</li>
+				</ul>
+			</li>
+			<li>Object-oriented reactive programming
+				<ul>
+					<li>When the object attributes react to changes individually</li>
+				</ul>
+			</li>
+			<li>Functional reactive programming
+        <ul>
+          <li>Based on the classic functional programming (mathematical functions evaluation) brings a notion of "over time" values, values that can change itself based on a function evaluation.</li>
+        </ul>
+      </li>			
+			<li>Dataflow programming
+        <ul>
+          <li>Defines a 'directed graph' of data flowing through the functions.</li>
+        </ul>
+      </li>
+			<li>Stream -> Stream -> Stream
+        <ul>
+          <li>Put all those concepts together, now we have async streams everywhere of anything. Thats the core!!!!</li>
+        </ul>
+      </li>
+		</ul>        
+    </article>
+  </slide>
+  
+  <slide>
+    <aside class="note">
+      <section>
+        <ul>
+          <li></li>
+        </ul>
+      </section>
+    </aside>  
+    <hgroup>
+      <h2>Reactive Programming</h2>
+    </hgroup>
+    <article class="smaller">
+		<pre class="prettyprint" data-lang="python">
+from peak.events import trellis
+class DistanceConverter(trellis.Component):
+    kilometers = trellis.maintain(
+        lambda self: self.miles / 0.621371,
+        initially = 1
+    )
+    miles = trellis.maintain(
+        lambda self: (self.kilometers * 0.621371),
+        initially = 0.621371
+    )
+    @trellis.perform
+    def show_values(self):
+        print self.kilometers, "km = ", self.miles, " miles\n---------------------------"
+		</pre>
+
+    <iframe style="height: 170px;" src="http://localhost:57575"></iframe>
+
+    </article>
+  </slide>
+
+  <slide>
+    <aside class="note">
+      <section>
+        <ul>
+          <li></li>
+        </ul>
+      </section>
+    </aside>  
+    <hgroup>
+      <h2>Reactive Programming</h2>
+    </hgroup>
+    <article class="smaller">
+		<pre class="prettyprint" data-lang="javascript">
+var ViewModel = function(first, last) {
+    this.firstName = ko.observable(first);
+    this.lastName = ko.observable(last);
+    this.fullName = ko.computed(function() {
+        return this.firstName() + " " + this.lastName();
+    }, this);
+};
+ko.applyBindings(new ViewModel("Smart", "People"));		
+		</pre>
+
+		<pre class="prettyprint" data-lang="html">
+&lt;div class='reactive-js-code'>   
+    &lt;p>First name: &lt;input data-bind='value: firstName' />&lt;/p> 
+    &lt;p>Last name: &lt;input data-bind='value: lastName' />&lt;/p> 
+    &lt;p>Hello, &lt;span data-bind='text: fullName'> &lt;/span>!&lt;/p>  
+&lt;/div>		
+		</pre>
+
+	<div class='reactive-js-code'>   
+	    <p>First name: <input data-bind='value: firstName' />      Last name: <input data-bind='value: lastName' /></p> 
+	    <p>Hello, <span data-bind='text: fullName'> </span>!</p>  
+	</div>
+
+<script type="text/javascript">
+var ViewModel = function(first, last) {
+    this.firstName = ko.observable(first);
+    this.lastName = ko.observable(last);
+ 
+    this.fullName = ko.computed(function() {
+        return this.firstName() + " " + this.lastName();
+    }, this);
+};
+ 
+ko.applyBindings(new ViewModel("Smart", "People"));
+</script>
+
+    </article>
+  </slide>
+
+
+  <slide>
+    <aside class="note">
+      <section>
+        <ul>
+          <li>The dataflow 'flows' only when all the input params are supplied</li>
+          <li>Asynchronicity - able to keep a large data volume to be processed later</li>
+          <li>Routing - based on a given 'rules' can choose the best path to communicate</li>
+          <li>Transformation - has the capability to convert received messages  </li>
+          <li>Small services doing a specific job, make the troubleshooting easy</li>
+        </ul>
+      </section>
+    </aside>    
+    <hgroup>
+      <h2>Reactive Architecture</h2>
+    </hgroup>
+    <article>
+  		<ul class="build fade">
+  			<li>Dataflow Architecture
+  	      		<ul>
+  	      			<li>The opposite of control flow architecture (von Neumann)</li>
+  	      			<li>All the flow is based on input args, what makes it a nondeterministic model</li>
+  	      		</ul>
+  		  	</li>
+  			<li>MVVM (Model View ViewModel)
+  	      		<ul>
+  	      			<li>Derived from MVC</li>
+  	      			<li>The UI knows its own data model, and handle all view display logic</li>
+  	      			<li>But never holds any business logic</li>
+  	      		</ul>
+  		  	</li>
+  			  <li>Message Oriented Architecture
+  	      		<ul>
+                <li>Creates an easy and powerful distributed architecture</li>
+  	      		</ul>
+  		  	</li>
+          <li>
+            Reactive Microservices
+            <ul>
+              <li>
+                Small services, working as autonomous systems, reacting to events
+              </li>
+            </ul>
+          </li>
+  		</ul>    
+    </article>
+  </slide>
+
+  <slide>
+    <aside class="note">
+      <section>
+        <ul>
+          <li>Amazon AWS gives a huge help on elasticity and resilience</li>
+          <li>Message driven systems are essential to achieve elasticity and responsiveness</li>
+          <li>Non blocking processes allow to have a small and maybe fix response time, it means service quality</li>
+        </ul>
+      </section>
+    </aside>    
+  	<img style="float: right;" src="http://d379ifj7s9wntv.cloudfront.net/reactivemanifesto/images/ribbons/we-are-reactive-blue-right.png">
+    <hgroup>
+      <h2>The <span style="border-bottom: 2px solid #445de9;">Reactive</span> Manifesto</h2>
+    </hgroup>
+    <article>
+	  <ul class="build">
+	  	<li>Responsive
+        <ul>
+          <li>Focus on providing rapid and consistent response times, establishing reliable upper bounds to deliver a consistent QOS</li>
+        </ul>
+	  	</li>
+	  	<li>Resilient
+        <ul>
+          <li>The system stays responsive in the face of failure, using: replication, containment, isolation and delegation</li>
+        </ul>
+	  	</li>
+	  	<li>Elastic
+		    <ul>
+          <li>The system stays responsive under varying workload</li>
+          <li>Can react to changes in the input rate by increasing or decreasing the resources allocated to service these inputs</li>
+        </ul>
+	  	</li>
+	  	<li>Message Driven
+          <ul>
+            <li>Reactive Systems rely on asynchronous message-passing to establish a boundary between components that ensures loose coupling, isolation, location transparency, and provides the means to delegate errors as messages</li>
+          </ul>
+	  	</li>
+	  </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Some action now</h2>
+    </hgroup>
+    <article>
+      <ul>
+        <li>
+          vertx.io
+          <ul><li>Lightweight, high performance application platform for the JVM that's designed for modern mobile, web, and enterprise applications.</ul></li>
+        </li>
+        <li>
+          RabbitMQ
+          <ul><li>Messaging broker that gives to applications a common platform to send and receive messages, and your messages a safe place to live until received. (AMQP)</ul></li>
+        </li>
+        <li>
+          MongoDB
+          <ul><li>A cross-platform document-oriented database</ul></li>
+        </li>
+        <li>
+          RxJava
+          <ul><li>
+            A Java VM implementation of Reactive Extensions: a library for composing asynchronous and event-based programs by using observable sequences. (Netflix)
+          </li></ul>
+        </li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide>
+    <hgroup>
+      <h2>Bibliography</h2>
+    </hgroup>
+    <article class="smaller">
+      <ul>
+        <li>http://stackoverflow.com/questions/1028250/what-is-functional-reactive-programming</li>
+        <li>http://www.slideshare.net/StevePember/distributed-reactive-architecture-extending-soa-with-events</li>
+        <li>http://www.programmersparadox.com/2008/10/05/message-oriented-architecture/</li>
+        <li>http://en.wikipedia.org/wiki/Functional_programming</li>
+        <li>http://en.wikipedia.org/wiki/Transport_triggered_architecture</li>
+        <li>http://en.wikipedia.org/wiki/Dataflow_architecture</li>
+        <li>http://en.wikipedia.org/wiki/Dataflow_programming</li>
+        <li>http://en.wikipedia.org/wiki/Functional_reactive_programming</li>
+        <li>http://en.wikipedia.org/wiki/Reactive_programming</li>
+        <li>http://www.reactivemanifesto.org/</li>
+        <li>https://github.com/ReactiveX/RxJava</li>
+        <li>http://techblog.netflix.com/2013/02/rxjava-netflix-api.html</li>
+        <li>http://camel.apache.org/rx.html</li>
+        <li>http://reactivex.io/tutorials.html</li>    
+        <li>vertx.io</li>
+      </ul>
+    </article>
+  </slide>
+
+  <slide class="thank-you-slide segue nobackground">
+    <aside class="gdbar right"><img src="images/Zenvia_Simbolo_Diagonal_Cor.png"></aside>
+    <article class="flexbox vleft auto-fadein">
+      <h2>&lt;Thank You!&gt;</h2>
+      <p></p>
+    </article>
+    <p class="auto-fadein" data-config-contact>
+    </p>
+  </slide>
+
+  <slide class="logoslide nobackground">
+    <article class="flexbox vcenter">
+      <span><img src="images/Zenvia_MobileResults_Horizontal_Cor.png"></span>
+    </article>
+  </slide>
+
+  <slide class="backdrop"></slide>
+
+</slides>
+</body>
+</html>
